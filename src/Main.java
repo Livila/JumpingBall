@@ -8,7 +8,7 @@ import java.awt.image.BufferStrategy;
 
 class Launcher {
     public static void main(String[] args) {
-        Game game = new Game(1600, 900, "Jumping Ball Game!");
+        Game game = new Game(1600, 900, "JumpingBall!");
         game.start();
     }
 }
@@ -58,6 +58,9 @@ class Game implements Runnable {
         this.title = title;
     }
 
+    /*
+     * Initialize the game.
+     */
     private void init() {
         display = new Display(width, height, title);
 
@@ -65,12 +68,12 @@ class Game implements Runnable {
         display.canvas.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
+                System.out.println("[INFO] Key typed: " + e.getKeyCode());
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Key pressed: " + e.getKeyCode());
+                System.out.println("[INFO] Key pressed: " + e.getKeyCode());
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ballMoveLeft = true;
 
@@ -80,7 +83,7 @@ class Game implements Runnable {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                System.out.println("Key released: " + e.getKeyCode());
+                System.out.println("[INFO] Key released: " + e.getKeyCode());
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ballMoveLeft = false;
@@ -102,23 +105,25 @@ class Game implements Runnable {
     boolean isJumping = true;
     int jumpingHeight = 100;
 
+    /*
+     * Update the game variables.
+     */
     private void tick() {
         if (isJumping) {
-            if (ballY < jumpingHeight / 2d) { // Just some simple testing...
+            if (ballY < jumpingHeight / 2d) { // Just some simple testing before adding the real thing...
                 ballY++;
             } else {
                 ballY += 0.5;
             }
-        } else{
+        } else {
             ballY--;
         }
 
         // Checking if the ball should be jumping or not.
-        if (isJumping && ballY >= jumpingHeight) {
+        if (isJumping && ballY >= jumpingHeight)
             isJumping = false;
-        } else if (!isJumping && ballY <= 0) {
+        else if (!isJumping && ballY <= 0)
             isJumping = true;
-        }
 
         // Move the ball left.
         if (ballMoveLeft)
@@ -129,26 +134,34 @@ class Game implements Runnable {
             ballX += 500;
     }
 
+    /*
+     * Update and render the screen.
+     */
     private void render() {
+
         // Setting up the buffer.
         bs = display.canvas.getBufferStrategy();
-        if(bs == null) {
+        if (bs == null) {
             display.canvas.createBufferStrategy(3);
             return;
         }
 
+        // Clean the screen.
         g = bs.getDrawGraphics();
         g.clearRect(0, 0, width, height);
 
-        // Drawing here...
+        // Graphics
         g.drawLine(0, height - baseHeight, width, height - baseHeight);
         g.fillOval(width / 2 - ballSizeX / 2 + ballX, height - baseHeight - ballSizeY - ((int)ballY), ballSizeX, ballSizeY);
 
-        // Buffer and graphics...
+        // Make graphics visible.
         bs.show();
         g.dispose();
     }
 
+    /*
+     * Initialize and loop the game.
+     */
     public void run() {
         init();
 
@@ -172,6 +185,9 @@ class Game implements Runnable {
         stop();
     }
 
+    /*
+     * Start threads for the game.
+     */
     public synchronized void start() {
         if (running) return;
 
@@ -181,6 +197,9 @@ class Game implements Runnable {
         thread.start();
     }
 
+    /*
+     * Stop the threads.
+     */
     public synchronized void stop() {
 
         if (!running) return;
