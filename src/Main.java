@@ -8,7 +8,7 @@ import java.awt.image.BufferStrategy;
 
 class Launcher {
     public static void main(String[] args) {
-        Game game = new Game(1600, 900, "JumpingBall!");
+        Game game = new Game(1600, 900, "Jumping Ball!");
         game.start();
     }
 }
@@ -68,12 +68,13 @@ class Game implements Runnable {
         display.canvas.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                System.out.println("[INFO] Key typed: " + e.getKeyCode());
+                //System.out.println("[INFO] Key typed: " + e.getKeyCode());
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("[INFO] Key pressed: " + e.getKeyCode());
+                //System.out.println("[INFO] Key pressed: " + e.getKeyCode());
+
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ballMoveLeft = true;
 
@@ -83,7 +84,7 @@ class Game implements Runnable {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                System.out.println("[INFO] Key released: " + e.getKeyCode());
+                //System.out.println("[INFO] Key released: " + e.getKeyCode());
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ballMoveLeft = false;
@@ -109,6 +110,7 @@ class Game implements Runnable {
      * Update the game variables.
      */
     private void tick() {
+
         if (isJumping) {
             if (ballY < jumpingHeight / 2d) { // Just some simple testing before adding the real thing...
                 ballY++;
@@ -150,11 +152,11 @@ class Game implements Runnable {
         g = bs.getDrawGraphics();
         g.clearRect(0, 0, width, height);
 
-        // Graphics
+        // Prepare the graphics.
         g.drawLine(0, height - baseHeight, width, height - baseHeight);
         g.fillOval(width / 2 - ballSizeX / 2 + ballX, height - baseHeight - ballSizeY - ((int)ballY), ballSizeX, ballSizeY);
 
-        // Make graphics visible.
+        // Make the graphics visible.
         bs.show();
         g.dispose();
     }
@@ -186,7 +188,7 @@ class Game implements Runnable {
     }
 
     /*
-     * Start threads for the game.
+     * Start the thread for the application.
      */
     public synchronized void start() {
         if (running) return;
@@ -198,7 +200,7 @@ class Game implements Runnable {
     }
 
     /*
-     * Stop the threads.
+     * Stop all threads.
      */
     public synchronized void stop() {
 
