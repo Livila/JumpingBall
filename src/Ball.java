@@ -7,11 +7,8 @@ public class Ball {
         this.x = x;
         this.y = y;
 
-        if (width > 0) this.width = width;
-        else this.width = 50;
-
-        if (height > 0) this.height = height;
-        else this.height = 50;
+        if (width > 0) this.width = width; else this.width = 50;
+        if (height > 0) this.height = height; else this.height = 50;
 
         this.velocity = velocity;
         this.isJumping = false;
@@ -22,9 +19,11 @@ public class Ball {
     public void setY(double y) { this.y = y; }
     public void setWidth(double width) { this.width = width; }
     public void setHeight(double height) { this.height = height; }
+
     public void setVelocity(double speed) { this.velocity = speed; }
     public void setMaxJumpingHeight(double maxJumpingHeight) { this.maxJumpingHeight = maxJumpingHeight; }
     public void setIsJumping(boolean isJumping) { this.isJumping = isJumping; }
+
     public void setIsMovingLeft(boolean isMovingLeft) { this.isMovingLeft = isMovingLeft; }
     public void setIsMovingRight(boolean isMovingRight) { this.isMovingRight = isMovingRight; }
 
@@ -32,9 +31,11 @@ public class Ball {
     public double getY() { return this.y; }
     public double getWidth() { return this.width; }
     public double getHeight() { return this.height; }
+
     public double getVelocity() { return this.velocity; }
     public double getMaxJumpingHeight() { return this.maxJumpingHeight; }
     public boolean getIsJumping() { return this.isJumping; }
+
     public boolean getIsMovingLeft() { return this.isMovingLeft; }
     public boolean getIsMovingRight() { return this.isMovingRight; }
 }

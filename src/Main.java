@@ -54,36 +54,38 @@ class Game implements Runnable {
 
     public Thread thread;
     public boolean running = false;
-    private BufferStrategy bs;
-    private Graphics g;
 
-    public Game(int width, int height, String title, int speed, int maxJumpingHeight) {
+    public Game(int width, int height, String title, int velocity, int maxJumpingHeight) {
         this.width = width;
         this.height = height;
         this.title = title;
 
         // Initialize the ball class.
         int ballSizeX = 50, ballSizeY = 50;
-        this.ball = new Ball(width / 2f - ballSizeX / 2f, 0, ballSizeX, ballSizeY, speed, maxJumpingHeight);
+        this.ball = new Ball(
+                width / 2f - ballSizeX / 2f,
+                0,
+                ballSizeX,
+                ballSizeY,
+                velocity,
+                maxJumpingHeight);
     }
 
     /*
      * Initialize the game.
      */
     private void init() {
+
         display = new Display(width, height, title);
 
         // Add key listeners.
         display.canvas.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                //System.out.println("[INFO] Key typed: " + e.getKeyCode());
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                //System.out.println("[INFO] Key pressed: " + e.getKeyCode());
-
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ball.setIsMovingLeft(true);
 
@@ -93,8 +95,6 @@ class Game implements Runnable {
 
             @Override
             public void keyReleased(KeyEvent e) {
-                //System.out.println("[INFO] Key released: " + e.getKeyCode());
-
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
                     ball.setIsMovingLeft(false);
 
@@ -144,14 +144,14 @@ class Game implements Runnable {
     private void render() {
 
         // Setting up the buffer strategy.
-        bs = display.canvas.getBufferStrategy();
+        BufferStrategy bs = display.canvas.getBufferStrategy();
         if (bs == null) {
             display.canvas.createBufferStrategy(3);
             return;
         }
 
         // Clear up the screen.
-        g = bs.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics();
         g.clearRect(0, 0, width, height);
 
         // Prepare graphics.
