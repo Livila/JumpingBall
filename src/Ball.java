@@ -3,7 +3,7 @@ public class Ball {
     private double x, y, width, height, speed;
     private boolean isJumping;
 
-    public Ball(int x, int y, int width, int height, int speed) {
+    public Ball(double x, double y, double width, double height, double speed) {
         this.x = x;
         this.y = y;
 
@@ -24,10 +24,10 @@ public class Ball {
     public void setSpeed(double speed) { this.speed = speed; }
     public void setIsJumping(boolean isJumping) { this.isJumping = isJumping; }
 
-    public double getX() { return Math.round(this.x); }
-    public double getY() { return Math.round(this.y); }
-    public double getWidth() { return Math.round(this.width); }
-    public double getHeight() { return Math.round(this.height); }
-    public double getVelocity() { return Math.round(this.speed); }
+    public double getX() { return this.x; }
+    public double getY() { return this.y; }
+    public double getWidth() { return this.width; }
+    public double getHeight() { return this.height; }
+    public double getVelocity() { return this.speed; }
     public boolean getIsJumping() { return this.isJumping; }
 }

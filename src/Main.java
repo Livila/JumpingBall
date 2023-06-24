@@ -57,8 +57,9 @@ class Game implements Runnable {
         this.height = height;
         this.title = title;
 
-        int ballSizeX = 50, ballSizeY = 0;
-        this.ball = new Ball(width / 2 - ballSizeX / 2, 0, ballSizeX, ballSizeY, speed);
+        // Initialize the ball class.
+        float ballSizeX = 50, ballSizeY = 50;
+        this.ball = new Ball(width / 2f - ballSizeX / 2f, 0, ballSizeX, ballSizeY, speed);
     }
 
     /*
@@ -98,7 +99,6 @@ class Game implements Runnable {
         });
     }
 
-    // TODO: Variables should be in a class and not here.
     int gameBaseHeight = 100;
     Ball ball;
     boolean ballMoveLeft = false;
@@ -110,22 +110,18 @@ class Game implements Runnable {
      */
     private void tick() {
 
-        System.out.println("[Tick] Location: " + ball.getX() + " :: " + ball.getY());
-
+        // Update the height of the ball.
         if (ball.getIsJumping()) {
-            // Just some simple testing before adding the real thing...
-            if (ball.getY() < jumpingHeight / 2d) {
-                {
-                    ball.setY(ball.getY() + ball.getY());
-                }
-            } else {
+            // Just some simple testing before adding the real physics...
+            if (ball.getY() < jumpingHeight / 2d)
+                ball.setY(ball.getY() + 1);
+            else
                 ball.setY(ball.getY() + 0.5d);
-            }
         } else {
             ball.setY(ball.getY() - 1);
         }
 
-        // Checking whether the ball should be jumping or not.
+        // Set whether the ball should be jumping or not.
         if (ball.getIsJumping() && ball.getY() >= jumpingHeight)
             ball.setIsJumping(false);
         else if (!ball.getIsJumping() && ball.getY() <= 0)
@@ -137,7 +133,7 @@ class Game implements Runnable {
 
         // Move the ball right.
         if (ballMoveRight)
-            ball.setX(ball.getVelocity());
+            ball.setX(ball.getX() + ball.getVelocity());
     }
 
     /*
@@ -158,7 +154,7 @@ class Game implements Runnable {
 
         // Prepare graphics.
         g.drawLine(0, height - gameBaseHeight, width, height - gameBaseHeight);
-        g.fillOval(width / 2 - ((int)ball.getWidth()) / 2 + ((int)ball.getX()), height - gameBaseHeight - ((int)ball.getHeight()) - ((int)ball.getY()), ((int)ball.getWidth()), ((int)ball.getHeight()));
+        g.fillOval(((int)ball.getX()), height - gameBaseHeight - ((int)ball.getHeight()) - ((int)ball.getY()), ((int)ball.getWidth()), ((int)ball.getHeight()));
 
         // Make the graphics visible.
         bs.show();
