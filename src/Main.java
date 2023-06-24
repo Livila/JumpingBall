@@ -8,7 +8,12 @@ import java.awt.image.BufferStrategy;
 
 class Launcher {
     public static void main(String[] args) {
-        Game game = new Game(1600, 900, "Jumping Ball!", 2);
+        Game game = new Game(
+                1600,
+                900,
+                "Jumping Ball!",
+                2,
+                100);
         game.start();
     }
 }
@@ -52,14 +57,14 @@ class Game implements Runnable {
     private BufferStrategy bs;
     private Graphics g;
 
-    public Game(int width, int height, String title, int speed) {
+    public Game(int width, int height, String title, int speed, int maxJumpingHeight) {
         this.width = width;
         this.height = height;
         this.title = title;
 
         // Initialize the ball class.
-        float ballSizeX = 50, ballSizeY = 50;
-        this.ball = new Ball(width / 2f - ballSizeX / 2f, 0, ballSizeX, ballSizeY, speed);
+        int ballSizeX = 50, ballSizeY = 50;
+        this.ball = new Ball(width / 2f - ballSizeX / 2f, 0, ballSizeX, ballSizeY, speed, maxJumpingHeight);
     }
 
     /*
@@ -80,10 +85,10 @@ class Game implements Runnable {
                 //System.out.println("[INFO] Key pressed: " + e.getKeyCode());
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
-                    ballMoveLeft = true;
+                    ball.setIsMovingLeft(true);
 
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-                    ballMoveRight = true;
+                    ball.setIsMovingRight(true);
             }
 
             @Override
@@ -91,19 +96,16 @@ class Game implements Runnable {
                 //System.out.println("[INFO] Key released: " + e.getKeyCode());
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT)
-                    ballMoveLeft = false;
+                    ball.setIsMovingLeft(false);
 
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-                    ballMoveRight = false;
+                    ball.setIsMovingRight(false);
             }
         });
     }
 
     int gameBaseHeight = 100;
     Ball ball;
-    boolean ballMoveLeft = false;
-    boolean ballMoveRight = false;
-    int jumpingHeight = 100;
 
     /*
      * Update the game variables.
@@ -113,7 +115,7 @@ class Game implements Runnable {
         // Update the height of the ball.
         if (ball.getIsJumping()) {
             // Just some simple testing before adding the real physics...
-            if (ball.getY() < jumpingHeight / 2d)
+            if (ball.getY() < ball.getMaxJumpingHeight() / 2d)
                 ball.setY(ball.getY() + 1);
             else
                 ball.setY(ball.getY() + 0.5d);
@@ -122,17 +124,17 @@ class Game implements Runnable {
         }
 
         // Set whether the ball should be jumping or not.
-        if (ball.getIsJumping() && ball.getY() >= jumpingHeight)
+        if (ball.getIsJumping() && ball.getY() >= ball.getMaxJumpingHeight())
             ball.setIsJumping(false);
         else if (!ball.getIsJumping() && ball.getY() <= 0)
             ball.setIsJumping(true);
 
         // Move the ball left.
-        if (ballMoveLeft)
+        if (ball.getIsMovingLeft())
             ball.setX(ball.getX() - ball.getVelocity());
 
         // Move the ball right.
-        if (ballMoveRight)
+        if (ball.getIsMovingRight())
             ball.setX(ball.getX() + ball.getVelocity());
     }
 
