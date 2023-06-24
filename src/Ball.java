@@ -1,6 +1,6 @@
 public class Ball {
 
-    private double x, y, width, height, velocity, maxJumpingHeight;
+    private double x, y, width, height, velocity, gravity, maxJumpingHeight;
     private boolean isJumping, isMovingLeft, isMovingRight;
 
     public Ball(double x, double y, int width, int height, double velocity, int maxJumpingHeight) {
@@ -20,7 +20,8 @@ public class Ball {
     public void setWidth(double width) { this.width = width; }
     public void setHeight(double height) { this.height = height; }
 
-    public void setVelocity(double speed) { this.velocity = speed; }
+    public void setVelocity(double velocity) { this.velocity = velocity; }
+    public void setGravity(double gravity) { this.gravity = gravity; }
     public void setMaxJumpingHeight(double maxJumpingHeight) { this.maxJumpingHeight = maxJumpingHeight; }
     public void setIsJumping(boolean isJumping) { this.isJumping = isJumping; }
 
@@ -33,6 +34,7 @@ public class Ball {
     public double getHeight() { return this.height; }
 
     public double getVelocity() { return this.velocity; }
+    public double getGravity() { return this.gravity; }
     public double getMaxJumpingHeight() { return this.maxJumpingHeight; }
     public boolean getIsJumping() { return this.isJumping; }
 

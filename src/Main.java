@@ -104,17 +104,15 @@ class Game implements Runnable {
         });
     }
 
-    int gameBaseHeight = 100;
+    int gameGroundHeight = 100;
     Ball ball;
 
     /*
      * Update the game variables.
      */
     private void tick() {
-
         // Update the height of the ball.
         if (ball.getIsJumping()) {
-            // Just some simple testing before adding the real physics...
             if (ball.getY() < ball.getMaxJumpingHeight() / 2d)
                 ball.setY(ball.getY() + 1);
             else
@@ -155,8 +153,8 @@ class Game implements Runnable {
         g.clearRect(0, 0, width, height);
 
         // Prepare graphics.
-        g.drawLine(0, height - gameBaseHeight, width, height - gameBaseHeight);
-        g.fillOval(((int)ball.getX()), height - gameBaseHeight - ((int)ball.getHeight()) - ((int)ball.getY()), ((int)ball.getWidth()), ((int)ball.getHeight()));
+        g.drawLine(0, height - gameGroundHeight, width, height - gameGroundHeight);
+        g.fillOval(((int)ball.getX()), height - gameGroundHeight - ((int)ball.getHeight()) - ((int)ball.getY()), ((int)ball.getWidth()), ((int)ball.getHeight()));
 
         // Make the graphics visible.
         bs.show();
@@ -179,7 +177,7 @@ class Game implements Runnable {
             delta += (now - lastTime) / tickDuration;
             lastTime = now;
 
-            if(delta >= 1) {
+            if (delta >= 1) {
                 tick();
                 render();
                 delta--;
@@ -193,8 +191,8 @@ class Game implements Runnable {
      * Start the thread for the application.
      */
     public synchronized void start() {
-        if (running) return;
 
+        if (running) return;
         running = true;
 
         thread = new Thread(this);
